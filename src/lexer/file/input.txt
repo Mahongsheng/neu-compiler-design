@@ -1,4 +1,3 @@
-public static void main(String[] args) {
-    System.out.println("haha");
-}
-//                afasdfsdf
+int a = 2e+3    ;
+int a = 2e+3;
+int a = 2e+3;
