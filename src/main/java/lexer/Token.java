@@ -1,25 +1,19 @@
 package lexer;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
+import lombok.AllArgsConstructor;
 
 /**
  * @author 马洪升
  */
 @Data
+@AllArgsConstructor
 public class Token {
 
     private int type;
     private String value;
 
-    public Token(int type, String value) {
-        this.type = type;
-        this.value = value;
-    }
-
-    public void display() {
-        System.out.println("<" + this.type + ", " + this.value + ">");
+    public String toString() {
+        return "<" + this.type + ", " + this.value + ">";
     }
 }

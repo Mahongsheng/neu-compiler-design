@@ -2,8 +2,10 @@ package lexer;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 /**
  * @author 马洪升
@@ -50,7 +52,7 @@ public class WordScanner {
             }
             readFromFile.close();
             for (Token token : tokens) {
-                token.display();
+                System.out.println(token.toString());
             }
         } catch (FileNotFoundException e) {
             System.err.println("输入文件不存在");
@@ -226,7 +228,12 @@ public class WordScanner {
 
     public void writeToFile() {
         try {
-            writeToFile = new BufferedWriter(new FileWriter("src/lexer/file/input.txt"));
+            writeToFile = new BufferedWriter(new FileWriter("src/main/java/lexer/file/output.txt"));
+            for (Token token : tokens) {
+                writeToFile.write(token.toString());
+                writeToFile.newLine();
+            }
+            writeToFile.close();
         } catch (IOException e) {
             System.err.println("输出文件不存在");
         }
@@ -235,6 +242,7 @@ public class WordScanner {
     public static void main(String[] args) {
         WordScanner wordScanner = new WordScanner();
         wordScanner.getTextFromFileAndAnalysis();
+        wordScanner.writeToFile();
     }
 
 }
