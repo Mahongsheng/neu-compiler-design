@@ -2,10 +2,7 @@ package lexer;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.stream.Stream;
 
 /**
  * @author 马洪升
@@ -79,7 +76,8 @@ public class WordScanner {
                 case 2:
                     if (Character.isDigit(currentChar)) {
                         currentWord.append(currentChar);
-                    } else analysingString.addFirst(currentChar);
+                    } else if (currentChar != 'e' && currentChar != 'E' && currentChar != '.')
+                        analysingString.addFirst(currentChar);
                     state = getNextState(state, currentChar);
                     break;
                 case 3:
