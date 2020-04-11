@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Quadruple {
     private char operation;
-    private char leftData;
-    private char rightData;
-    private char result;
+    private String leftData;
+    private String rightData;
+    private String result;
 }

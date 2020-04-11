@@ -6,7 +6,7 @@ import java.util.*;
 
 @Getter
 public class AnalysisTable {
-    private String[] grammar = {"E->TY", "Y->+TgY", "Y->-TgY", "Y->n", "T->FX", "X->*FgX", "X->/FgX", "X->n", "F->ip", "F->(E)"};
+    private String[] grammar = {"E->TY", "Y->+TY", "Y->-TY", "Y->e", "T->FX", "X->*FX", "X->/FX", "X->e", "F->i", "F->(E)"};
     private HashSet<Character> Vn = new HashSet<>();//非终结符集
     private HashSet<Character> Vt = new HashSet<>();//终结符集合
     private ArrayList<HashSet<Character>> first = new ArrayList<>();
@@ -14,6 +14,7 @@ public class AnalysisTable {
     private ArrayList<HashSet<Character>> select = new ArrayList<>();
     private HashMap<Character, ArrayList<AnalysisTableItem>> analysisTable = new HashMap<>();
     public int[] ifNeedFollow = new int[grammar.length];
+    private char firstVn = grammar[0].charAt(0);
 
     public AnalysisTable() {
         this.handleVnVt();
@@ -81,14 +82,25 @@ public class AnalysisTable {
 
     private HashSet<Character> findFollowByVn(char currentVn) {
         HashSet<Character> currFollow = new HashSet<>();
+        if (firstVn == currentVn) currFollow.add(';');
         for (String currGrammar : grammar) {
             String rightOfGrammar = currGrammar.split("->")[1];
+            //遍历并找到右部含有当前非终结符的产生式
             for (int i = 0; i < rightOfGrammar.length(); i++) {
                 if (rightOfGrammar.charAt(i) == currentVn) {
                     if (i == rightOfGrammar.length() - 1 || rightOfGrammar.charAt(i + 1) == 'e') {
-                        findFollowByVn(currGrammar.charAt(0));
+                        if (currGrammar.charAt(0) != currentVn)
+                            currFollow.addAll(findFollowByVn(currGrammar.charAt(0)));
                         break;
                     } else {
+                        for (int j = 0; j < grammar.length; j++) {
+                            if (grammar[j].charAt(0) == rightOfGrammar.charAt(i + 1)) {
+                                if (ifNeedFollow[j] == 1) {
+                                    currFollow.addAll(findFollowByVn(rightOfGrammar.charAt(i + 1)));
+                                    break;
+                                }
+                            }
+                        }
                         currFollow.addAll(findFirstByVn(rightOfGrammar.charAt(i + 1)));
                     }
                 }
@@ -152,9 +164,9 @@ public class AnalysisTable {
     public static void main(String[] args) {
         AnalysisTable analysisTable = new AnalysisTable();
         analysisTable.showAnalysisTable();
-//        System.out.println(analysisTable.first);
-//        System.out.println(analysisTable.follow);
-//        System.out.println(analysisTable.select);
+        System.out.println(analysisTable.getFirst());
+        System.out.println(analysisTable.getFollow());
+        System.out.println(analysisTable.getSelect());
 //        System.out.println(analysisTable.analysisTable);
     }
 }
