@@ -3,7 +3,6 @@ package parser.Recursive;
 import lombok.*;
 
 @Getter
-@Setter
 @EqualsAndHashCode
 @AllArgsConstructor
 public class Quadruple {

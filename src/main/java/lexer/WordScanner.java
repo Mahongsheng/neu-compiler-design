@@ -236,11 +236,4 @@ public class WordScanner {
             System.err.println("输出文件不存在");
         }
     }
-
-    public static void main(String[] args) {
-        WordScanner wordScanner = new WordScanner();
-        wordScanner.getTextFromFileAndAnalysis();
-        wordScanner.writeToFile();
-    }
-
 }

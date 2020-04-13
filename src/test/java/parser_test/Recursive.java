@@ -1,7 +1,8 @@
+package parser_test;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import parser.Recursive.Quadruple;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class Recursive {
 
@@ -12,7 +13,7 @@ public class Recursive {
         recursive.beginToAnalysis("a+b;");
         recursive.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
-        assertEquals(add, recursive.getQT().get(0));
+        Assertions.assertEquals(add, recursive.getQT().get(0));
     }
 
     @Test
@@ -20,7 +21,7 @@ public class Recursive {
         recursive.beginToAnalysis("a-b;");
         recursive.showQT();
         Quadruple subtraction = new Quadruple('-', "a", "b", "t1");
-        assertEquals(subtraction, recursive.getQT().get(0));
+        Assertions.assertEquals(subtraction, recursive.getQT().get(0));
     }
 
     @Test
@@ -28,7 +29,7 @@ public class Recursive {
         recursive.beginToAnalysis("a*b;");
         recursive.showQT();
         Quadruple multiply = new Quadruple('*', "a", "b", "t1");
-        assertEquals(multiply, recursive.getQT().get(0));
+        Assertions.assertEquals(multiply, recursive.getQT().get(0));
     }
 
     @Test
@@ -36,7 +37,7 @@ public class Recursive {
         recursive.beginToAnalysis("a/b;");
         recursive.showQT();
         Quadruple divide = new Quadruple('/', "a", "b", "t1");
-        assertEquals(divide, recursive.getQT().get(0));
+        Assertions.assertEquals(divide, recursive.getQT().get(0));
     }
 
     @Test
@@ -47,9 +48,9 @@ public class Recursive {
         Quadruple subtraction = new Quadruple('-', "t1", "c", "t2");
         Quadruple multiply = new Quadruple('*', "t2", "d", "t3");
         Quadruple divide = new Quadruple('/', "t3", "e", "t4");
-        assertEquals(add, recursive.getQT().get(0));
-        assertEquals(subtraction, recursive.getQT().get(1));
-        assertEquals(multiply, recursive.getQT().get(2));
-        assertEquals(divide, recursive.getQT().get(3));
+        Assertions.assertEquals(add, recursive.getQT().get(0));
+        Assertions.assertEquals(subtraction, recursive.getQT().get(1));
+        Assertions.assertEquals(multiply, recursive.getQT().get(2));
+        Assertions.assertEquals(divide, recursive.getQT().get(3));
     }
 }

@@ -1,3 +1,6 @@
+package parser_test;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import parser.LL1.Quadruple;
 
@@ -12,7 +15,7 @@ public class LL1 {
         ll1.LL1Control("a+b;");
         ll1.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
-        assertEquals(add, ll1.getQT().get(0));
+        Assertions.assertEquals(add, ll1.getQT().get(0));
     }
 
     @Test
@@ -20,7 +23,7 @@ public class LL1 {
         ll1.LL1Control("a-b;");
         ll1.showQT();
         Quadruple subtraction = new Quadruple('-', "a", "b", "t1");
-        assertEquals(subtraction, ll1.getQT().get(0));
+        Assertions.assertEquals(subtraction, ll1.getQT().get(0));
     }
 
     @Test
@@ -28,7 +31,7 @@ public class LL1 {
         ll1.LL1Control("a*b;");
         ll1.showQT();
         Quadruple multiply = new Quadruple('*', "a", "b", "t1");
-        assertEquals(multiply, ll1.getQT().get(0));
+        Assertions.assertEquals(multiply, ll1.getQT().get(0));
     }
 
     @Test
@@ -36,7 +39,7 @@ public class LL1 {
         ll1.LL1Control("a/b;");
         ll1.showQT();
         Quadruple divide = new Quadruple('/', "a", "b", "t1");
-        assertEquals(divide, ll1.getQT().get(0));
+        Assertions.assertEquals(divide, ll1.getQT().get(0));
     }
 
     @Test
@@ -47,9 +50,9 @@ public class LL1 {
         Quadruple subtraction = new Quadruple('-', "t1", "c", "t2");
         Quadruple multiply = new Quadruple('*', "t2", "d", "t3");
         Quadruple divide = new Quadruple('/', "t3", "e", "t4");
-        assertEquals(add, ll1.getQT().get(0));
-        assertEquals(subtraction, ll1.getQT().get(1));
-        assertEquals(multiply, ll1.getQT().get(2));
-        assertEquals(divide, ll1.getQT().get(3));
+        Assertions.assertEquals(add, ll1.getQT().get(0));
+        Assertions.assertEquals(subtraction, ll1.getQT().get(1));
+        Assertions.assertEquals(multiply, ll1.getQT().get(2));
+        Assertions.assertEquals(divide, ll1.getQT().get(3));
     }
 }

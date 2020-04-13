@@ -6,7 +6,6 @@ import lombok.Setter;
 import java.util.LinkedList;
 import java.util.Stack;
 
-@Setter
 @Getter
 public class Recursive {
 
@@ -96,11 +95,5 @@ public class Recursive {
         Quadruple fqt = new Quadruple(action, leftData, rightData, "t" + tCount++);
         SEM.push(fqt.getResult());
         QT.add(fqt);
-    }
-
-    public static void main(String[] args) {
-        Recursive recursive = new Recursive();
-        recursive.beginToAnalysis("a+b;");
-        recursive.showQT();
     }
 }

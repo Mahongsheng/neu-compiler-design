@@ -113,10 +113,4 @@ public class LL1 {
     public void showQT() {
         QT.forEach(quadruple -> System.out.println(quadruple.toString()));
     }
-
-    public static void main(String[] args) {
-        LL1 ll1 = new LL1();
-        System.out.println(ll1.LL1Control("(a+b)*c;"));
-        ll1.showQT();
-    }
 }
