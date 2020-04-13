@@ -14,14 +14,14 @@ public class WordScanner {
     static lexer.WordScanner wordScanner;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         readFile = new File("src/main/java/lexer/file/input.txt");
         writeFile = new File("src/main/java/lexer/file/output.txt");
         wordScanner = new lexer.WordScanner();
     }
 
     @BeforeEach
-    private void clearFile() {
+    public void clearFile() {
         try {
             readFile.createNewFile();
             writeFile.createNewFile();
@@ -127,15 +127,4 @@ public class WordScanner {
             readFromFile.close();
         });
     }
-
-    /**
-     * 这是一段测试代码
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-
-    }
-
-
 }

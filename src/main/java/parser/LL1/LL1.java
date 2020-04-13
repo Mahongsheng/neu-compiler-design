@@ -1,25 +1,33 @@
 package parser.LL1;
 
+import lombok.Getter;
+
 import java.util.*;
 
+@Getter
 public class LL1 {
 
     private AnalysisTable analysisTableObj = new AnalysisTable();
     private HashMap<Character, ArrayList<AnalysisTableItem>> analysisTable = analysisTableObj.getAnalysisTable();
-    //    private String[] grammar = analysisTableObj.getGrammar();
     private HashSet<Character> Vn = analysisTableObj.getVn();//非终结符集
     private HashSet<Character> Vt = analysisTableObj.getVt();//终结符集合
     private char firstVn = analysisTableObj.getGrammar()[0].charAt(0);
-
-    private Stack<String> SEM = new Stack<>();
-    private ArrayList<Quadruple> QT = new ArrayList<>();
+    private Stack<Character> SYN;
+    private Stack<String> SEM;
+    private ArrayList<Quadruple> QT;
     private String[] grammar = {"E->TY", "Y->+T{G+}Y", "Y->-T{G-}Y", "Y->e", "T->FX", "X->*F{G*}X", "X->/F{G/}X", "X->e", "F->i{Pi}", "F->(E)"};
 
-    public boolean LL1Control(String ll1String) {
+    private void init() {
+        SYN = new Stack<>();
+        SEM = new Stack<>();
+        QT = new ArrayList<>();
+    }
+
+    public boolean LL1Control(String LL1String) {
+        init();
         int cursorInString = 0;
-        Stack<Character> stack = new Stack<>();
-        stack.push(ll1String.charAt(ll1String.length() - 1));
-        stack.push(firstVn);
+        SYN.push(LL1String.charAt(LL1String.length() - 1));
+        SYN.push(firstVn);
         int state = 1;
         char lastW = 0;
         char w = 0;
@@ -29,17 +37,17 @@ public class LL1 {
             switch (state) {
                 case 1:
                     lastW = w;
-                    w = ll1String.charAt(cursorInString++);// NEXT(w)
+                    w = LL1String.charAt(cursorInString++);// NEXT(w)
                     state = 2;
                     break;
                 case 2:
-                    x = stack.pop();// POP(x)
+                    x = SYN.pop();// POP(x)
                     //判断是否为动作符号
                     if (x == '{') {
                         //执行动作符号
-                        char operation = stack.pop();
-                        char symbol = stack.pop();
-                        if (stack.pop() == '}') {
+                        char operation = SYN.pop();
+                        char symbol = SYN.pop();
+                        if (SYN.pop() == '}') {
                             if (operation == 'G') {
                                 String rightData = SEM.pop();
                                 String leftData = SEM.pop();
@@ -88,7 +96,7 @@ public class LL1 {
                         else {
                             String rightOfNextGrammar = grammar[changeToNextGrammar].split("->")[1];
                             for (int i = rightOfNextGrammar.length() - 1; i >= 0; i--) {
-                                if (rightOfNextGrammar.charAt(i) != 'e') stack.push(rightOfNextGrammar.charAt(i));
+                                if (rightOfNextGrammar.charAt(i) != 'e') SYN.push(rightOfNextGrammar.charAt(i));
                             }
                             state = 2;
                         }
@@ -102,9 +110,13 @@ public class LL1 {
         }
     }
 
+    public void showQT() {
+        QT.forEach(quadruple -> System.out.println(quadruple.toString()));
+    }
+
     public static void main(String[] args) {
         LL1 ll1 = new LL1();
         System.out.println(ll1.LL1Control("(a+b)*c;"));
-        System.out.println(ll1.QT);
+        ll1.showQT();
     }
 }

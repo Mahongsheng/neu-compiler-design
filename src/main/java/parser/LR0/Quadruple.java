@@ -1,12 +1,12 @@
-package parser.LL1;
+package parser.LR0;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @EqualsAndHashCode
 @AllArgsConstructor
 public class Quadruple {

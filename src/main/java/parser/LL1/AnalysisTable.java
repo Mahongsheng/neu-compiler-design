@@ -132,26 +132,45 @@ public class AnalysisTable {
         }
     }
 
-    private boolean judgeIfLL1() {
-        return false;
+    public boolean judgeIfLL1() {
+        int wholeNumInSelect;
+        char currentVn = 0;
+        HashSet<Character> wholeSelect;
+        HashSet<Character> judgedVn = new HashSet<>();
+        for (int i = 0; i < grammar.length; i++) {
+            if (!judgedVn.contains(currentVn)) {
+                currentVn = grammar[i].charAt(0);
+                judgedVn.add(currentVn);
+                wholeNumInSelect = 0;
+                wholeSelect = new HashSet<>();
+            } else continue;
+            for (int j = i + 1; j < grammar.length; j++) {
+                if (grammar[j].charAt(0) == currentVn) {
+                    wholeNumInSelect += select.get(j).size();
+                    wholeSelect.addAll(select.get(j));
+                }
+            }
+            if (wholeNumInSelect != wholeSelect.size()) return false;
+        }
+        return true;
     }
 
     private void handleAnalysisTable() {
         for (int i = 0; i < grammar.length; i++) {
-            char VnOfthisGrammar = grammar[i].charAt(0);
-            if (!analysisTable.containsKey(VnOfthisGrammar)) {
+            char VnOfThisGrammar = grammar[i].charAt(0);
+            if (!analysisTable.containsKey(VnOfThisGrammar)) {
                 ArrayList<AnalysisTableItem> arrOfThisVn = new ArrayList<>();
-                analysisTable.put(VnOfthisGrammar, arrOfThisVn);
+                analysisTable.put(VnOfThisGrammar, arrOfThisVn);
             }
             HashSet<Character> thisSelect = select.get(i);
             for (char thisChar : thisSelect) {
-                AnalysisTableItem analysisTableItem = new AnalysisTableItem(VnOfthisGrammar, thisChar, i);
-                analysisTable.get(VnOfthisGrammar).add(analysisTableItem);
+                AnalysisTableItem analysisTableItem = new AnalysisTableItem(VnOfThisGrammar, thisChar, i);
+                analysisTable.get(VnOfThisGrammar).add(analysisTableItem);
             }
         }
     }
 
-    private void showAnalysisTable() {
+    public void showAnalysisTable() {
         for (char Vn : analysisTable.keySet()) {
             System.out.print(Vn + "\t");
             for (AnalysisTableItem item : analysisTable.get(Vn)) {
@@ -163,10 +182,10 @@ public class AnalysisTable {
 
     public static void main(String[] args) {
         AnalysisTable analysisTable = new AnalysisTable();
+        System.out.println("First集： " + analysisTable.getFirst());
+        System.out.println("Follow集： " + analysisTable.getFollow());
+        System.out.println("Select集： " + analysisTable.getSelect());
+        System.out.println(analysisTable.judgeIfLL1() ? "该语句为LL(1)文法" : "该语句不是LL(1)文法");
         analysisTable.showAnalysisTable();
-        System.out.println(analysisTable.getFirst());
-        System.out.println(analysisTable.getFollow());
-        System.out.println(analysisTable.getSelect());
-//        System.out.println(analysisTable.analysisTable);
     }
 }
