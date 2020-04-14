@@ -5,15 +5,20 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * LR(0)分析法
+ *
+ * @author 软英1702 马洪升
+ */
 @Getter
 public class LR0 {
 
-    private Stack<String> SYN = new Stack<>();
-    private Stack<String> SEM = new Stack<>();
-    private ArrayList<Quadruple> QT = new ArrayList<>();
     private String[] grammar = {"Z->E", "E->E+T{G+}", "E->T", "T->T*F{G*}", "T->F", "F->i{Pi}", "F->(E)"};
+    private Stack<String> SYN;//语法栈
+    private Stack<String> SEM;//语义栈
+    private ArrayList<Quadruple> QT;//四元式列表
 
-    //我们需要一个java的G(Z)
+    //SLR(1)分析表
     private String[][] analysisTable = {
             //i   +   *    (   )   ;   E   T   F
             {"i8", "", "", "(9", "", "", "E1", "T4", "F7"},//0
@@ -30,27 +35,21 @@ public class LR0 {
             {"r(6)", "r(6)", "r(6)", "r(6)", "r(6)", "r(6)", "", "", ""},// 11
     };
 
+    /**
+     * 初始化列表和栈，便于多次分析
+     */
     private void init() {
         SYN = new Stack<>();
         SEM = new Stack<>();
         QT = new ArrayList<>();
     }
 
-    private String findFromAnalysisTable(int k, char w) {
-        int row = k, column = -1;
-        char[] wInTable = {'+', '*', '(', ')', ';'};
-        if (w == 'E') column = 6;
-        else if (w == 'T') column = 7;
-        else if (w == 'F') column = 8;
-        else if (Character.isLetter(w) || Character.isDigit(w)) column = 0;
-        else {
-            for (int l = 0; l < wInTable.length; l++) {
-                if (wInTable[l] == w) column = l + 1;
-            }
-        }
-        return analysisTable[row][column];
-    }
-
+    /**
+     * LR(0)控制程序
+     *
+     * @param LR0String
+     * @return true：无问题；false：有问题
+     */
     public boolean LR0Control(String LR0String) {
         init();
         int k = 0;
@@ -90,7 +89,8 @@ public class LR0 {
                     for (int i = 0; i < rightOfGrammar.length(); i++) {
                         if (rightOfGrammar.charAt(i) != '{') {
                             SYN.pop();
-                        } else {//发现运算符
+                        } else {
+                            //发现动作符号
                             if (rightOfGrammar.charAt(i + 1) == 'G') {
                                 char symbol = rightOfGrammar.charAt(i + 2);
                                 String rightData = SEM.pop();
@@ -114,6 +114,31 @@ public class LR0 {
         }
     }
 
+    /**
+     * 根查询LR分析表
+     *
+     * @param k 当前状态
+     * @param w 当前字符
+     * @return 查询结果
+     */
+    private String findFromAnalysisTable(int k, char w) {
+        int row = k, column = -1;
+        char[] wInTable = {'+', '*', '(', ')', ';'};
+        if (w == 'E') column = 6;
+        else if (w == 'T') column = 7;
+        else if (w == 'F') column = 8;
+        else if (Character.isLetter(w) || Character.isDigit(w)) column = 0;
+        else {
+            for (int l = 0; l < wInTable.length; l++) {
+                if (wInTable[l] == w) column = l + 1;
+            }
+        }
+        return analysisTable[row][column];
+    }
+
+    /**
+     * 展示四元式区中结果
+     */
     public void showQT() {
         QT.forEach(quadruple -> System.out.println(quadruple.toString()));
     }

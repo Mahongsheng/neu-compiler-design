@@ -5,19 +5,25 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
+ * 扫描器
+ * 从文件中获取代码，分析后形成token，再写入另一文件中
+ *
  * @author 马洪升
  */
 public class WordScanner {
 
+    //使用链表存储所有待处理字符串
     LinkedList<Character> analysingString = new LinkedList<>();
+    //相应的Token序列；关键字表和界符表；符号表和常数表；
     LinkedList<Token> tokens = new LinkedList<>();
     ArrayList<String> keywords = new ArrayList<>();
     ArrayList<String> identifiers = new ArrayList<>();
-    ArrayList<Double> constants = new ArrayList<>();
     ArrayList<String> symbols = new ArrayList<>();
+    ArrayList<Double> constants = new ArrayList<>();
+    //是否正在处理注释
     boolean isProcessingNote = false;
     BufferedWriter writeToFile;
-
+    //有限自动机的状态转换表
     int[][] transitionMatrix = {
             {2, 0, 0, 0, 8, 11, 0, 9, 19},
             {2, 3, 5, 14, 0, 0, 0, 0, 14},
@@ -33,24 +39,25 @@ public class WordScanner {
             {0, 0, 0, 0, 0, 0, 13, 0, 12},
             {0, 0, 0, 0, 0, 18, 13, 0, 12}};
 
+    /**
+     * 从文件中读取代码并开始分析
+     */
     public void getTextFromFileAndAnalysis() {
         try {
             BufferedReader readFromFile = new BufferedReader(new FileReader("src/main/java/lexer/file/input.txt"));
             String textLineInFile;
             while ((textLineInFile = readFromFile.readLine()) != null) {
                 textLineInFile = textLineInFile.trim();
-                if (textLineInFile.startsWith("//")) continue;// 跳过单行注释
+                if (textLineInFile.startsWith("//")) continue;//在此处跳过单行注释，加快处理效率
                 char[] textToChar = textLineInFile.toCharArray();
                 for (char charInArray : textToChar) {
                     analysingString.add(charInArray);
                 }
                 analysingString.add(' ');
-                analysisWord();
+                analysisWord();//开始处理
             }
             readFromFile.close();
-            for (Token token : tokens) {
-                System.out.println(token.toString());
-            }
+            showAll();
         } catch (FileNotFoundException e) {
             System.err.println("输入文件不存在");
         } catch (IOException e) {
@@ -58,13 +65,16 @@ public class WordScanner {
         }
     }
 
+    /**
+     * 使用有限自动机进行词法分析
+     */
     private void analysisWord() {
         int state = 1;
         if (isProcessingNote) state = 12;
-        char currentChar;
+        char currentChar;//当前字符
         Token token;
-        StringBuilder currentWord = new StringBuilder();
-        StringBuilder currentENum = new StringBuilder();
+        StringBuilder currentWord = new StringBuilder();//当前单词
+        StringBuilder currentENum = new StringBuilder();//当前数字型的科学计数部分
         while (!analysingString.isEmpty()) {
             currentChar = analysingString.poll();
             switch (state) {
@@ -197,6 +207,13 @@ public class WordScanner {
         }
     }
 
+    /**
+     * 根据当前状态和当前字符得到下一状态
+     *
+     * @param state
+     * @param currentChar
+     * @return
+     */
     private int getNextState(int state, Character currentChar) {
         int column;
         if (Character.isDigit(currentChar)) column = 0;
@@ -224,6 +241,9 @@ public class WordScanner {
         return nextState;
     }
 
+    /**
+     * 将分析结果中的token写入文件
+     */
     public void writeToFile() {
         try {
             writeToFile = new BufferedWriter(new FileWriter("src/main/java/lexer/file/output.txt"));
@@ -235,5 +255,26 @@ public class WordScanner {
         } catch (IOException e) {
             System.err.println("输出文件不存在");
         }
+    }
+
+    /**
+     * 展示所有分析结果
+     */
+    private void showAll() {
+        for (Token token : tokens) {
+            System.out.print(token.toString() + " ");
+        }
+        System.out.println();
+        System.out.print("关键字表：");
+        keywords.forEach(e -> System.out.print(e + " "));
+        System.out.println();
+        System.out.print("界符表：");
+        identifiers.forEach(e -> System.out.print(e + " "));
+        System.out.println();
+        System.out.print("符号表：");
+        symbols.forEach(e -> System.out.print(e + " "));
+        System.out.println();
+        System.out.print("常数表：");
+        constants.forEach(e -> System.out.print(e + " "));
     }
 }

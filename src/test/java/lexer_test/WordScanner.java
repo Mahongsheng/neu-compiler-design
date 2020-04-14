@@ -8,6 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 
+/**
+ * WordScanner测试类。因为涉及到文件读写，所以该测试类不能直接执行所有，会导致测试不通过。
+ * 请一个测试用例一个测试用例过。
+ *
+ * @author 软英1702 马洪升
+ */
 public class WordScanner {
 
     static File readFile;
@@ -126,6 +132,20 @@ public class WordScanner {
             BufferedReader readFromFile = new BufferedReader(new FileReader("src/main/java/lexer/file/output.txt"));
             assertEquals("<-1, 无法识别字符串>", readFromFile.readLine());
             readFromFile.close();
+        });
+    }
+
+    @Test
+    public void testAll() {
+        assertDoesNotThrow(() -> {
+            BufferedWriter writeToFile = new BufferedWriter(new FileWriter(readFile));
+            writeToFile.write("public static void main(String[] args) {\n" +
+                    "   int a = 2;\n" +
+                    "   System.out.println();\n" +
+                    "}");
+            writeToFile.close();
+            wordScanner.getTextFromFileAndAnalysis();
+            wordScanner.writeToFile();
         });
     }
 }

@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import parser.LL1.Quadruple;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * 测试LL(1)分析是否成功
+ *
+ * @author 软英1702 马洪升
+ */
 public class LL1 {
 
     parser.LL1.LL1 ll1 = new parser.LL1.LL1();

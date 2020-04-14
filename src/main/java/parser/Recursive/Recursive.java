@@ -1,28 +1,40 @@
 package parser.Recursive;
 
 import lombok.Getter;
-import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
+/**
+ * 递归子程序法
+ *
+ * @author 软英1702 马洪升
+ */
 @Getter
 public class Recursive {
 
-    private LinkedList<Quadruple> QT;//四元式队列
-    private LinkedList<Character> allCharOfString;
-
-    private Stack<String> SEM = new Stack<>();    //语义栈
+    private LinkedList<Character> allCharOfString;//待分析字符串
+    private Stack<String> SEM = new Stack<>();//语义栈
+    private ArrayList<Quadruple> QT;//四元式列表
     private char w;//当前字符
-    private int tCount;
+    private int tCount;//四元式中t后系数
 
+    /**
+     * 初始化链表和栈，便于多次分析
+     */
     private void init() {
-        QT = new LinkedList<>();
+        QT = new ArrayList<>();
         allCharOfString = new LinkedList<>();
         SEM = new Stack<>();
         tCount = 1;
     }
 
+    /**
+     * 将待分析字符拆分放入列表后开始分析
+     *
+     * @param arithmeticCode
+     */
     public void beginToAnalysis(String arithmeticCode) {
         init();
         for (char eachChar : arithmeticCode.toCharArray()) {
@@ -33,10 +45,9 @@ public class Recursive {
         E();
     }
 
-    public void showQT() {
-        QT.forEach(quadruple -> System.out.println(quadruple.toString()));
-    }
-
+    /**
+     * 子程序E
+     */
     private void E() {
         T();
         while (true) {
@@ -55,6 +66,9 @@ public class Recursive {
         }
     }
 
+    /**
+     * 子程序T
+     */
     private void T() {
         F();
         while (true) {
@@ -72,6 +86,9 @@ public class Recursive {
         }
     }
 
+    /**
+     * 子程序F
+     */
     private void F() {
         if ((w >= '0' && w <= '9') || (w >= 'a' && w <= 'z')) {
             SEM.push(String.valueOf(w));
@@ -89,11 +106,23 @@ public class Recursive {
         }
     }
 
+    /**
+     * 生成四元式
+     *
+     * @param action
+     */
     private void GEQ(char action) {
         String rightData = SEM.pop();
         String leftData = SEM.pop();
         Quadruple fqt = new Quadruple(action, leftData, rightData, "t" + tCount++);
         SEM.push(fqt.getResult());
         QT.add(fqt);
+    }
+
+    /**
+     * 展示四元式区中结果
+     */
+    public void showQT() {
+        QT.forEach(quadruple -> System.out.println(quadruple.toString()));
     }
 }

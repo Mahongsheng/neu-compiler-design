@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import parser.LR0.Quadruple;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * 测试LR(0)分析法是否成功
+ *
+ * @author 软英1702 马洪升
+ */
 public class LR0 {
 
     parser.LR0.LR0 LR0 = new parser.LR0.LR0();

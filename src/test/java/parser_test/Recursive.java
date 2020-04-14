@@ -4,6 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import parser.Recursive.Quadruple;
 
+/**
+ * 测试递归子程序法是否成功
+ *
+ * @author 软英1702 马洪升
+ */
 public class Recursive {
 
     parser.Recursive.Recursive recursive = new parser.Recursive.Recursive();

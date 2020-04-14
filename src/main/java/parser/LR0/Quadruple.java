@@ -4,6 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+ * 四元式类
+ *
+ * @author 软英1702 马洪升
+ */
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor

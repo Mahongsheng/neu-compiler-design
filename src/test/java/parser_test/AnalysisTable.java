@@ -2,6 +2,11 @@ package parser_test;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * 测试分析表是否正确生成
+ *
+ * @author 软英1702 马洪升
+ */
 public class AnalysisTable {
 
     private parser.LL1.AnalysisTable analysisTable = new parser.LL1.AnalysisTable();
