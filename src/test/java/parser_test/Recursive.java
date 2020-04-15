@@ -15,7 +15,9 @@ public class Recursive {
 
     @Test
     public void testAdd() {
-        recursive.beginToAnalysis("a+b;");
+        Assertions.assertDoesNotThrow(() -> {
+            recursive.beginToAnalysis("a+b;");
+        });
         recursive.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
         Assertions.assertEquals(add, recursive.getQT().get(0));
@@ -23,7 +25,9 @@ public class Recursive {
 
     @Test
     public void testSubtraction() {
-        recursive.beginToAnalysis("a-b;");
+        Assertions.assertDoesNotThrow(() -> {
+            recursive.beginToAnalysis("a-b;");
+        });
         recursive.showQT();
         Quadruple subtraction = new Quadruple('-', "a", "b", "t1");
         Assertions.assertEquals(subtraction, recursive.getQT().get(0));
@@ -31,7 +35,9 @@ public class Recursive {
 
     @Test
     public void testMultiply() {
-        recursive.beginToAnalysis("a*b;");
+        Assertions.assertDoesNotThrow(() -> {
+            recursive.beginToAnalysis("a*b;");
+        });
         recursive.showQT();
         Quadruple multiply = new Quadruple('*', "a", "b", "t1");
         Assertions.assertEquals(multiply, recursive.getQT().get(0));
@@ -39,7 +45,9 @@ public class Recursive {
 
     @Test
     public void testDivide() {
-        recursive.beginToAnalysis("a/b;");
+        Assertions.assertDoesNotThrow(() -> {
+            recursive.beginToAnalysis("a/b;");
+        });
         recursive.showQT();
         Quadruple divide = new Quadruple('/', "a", "b", "t1");
         Assertions.assertEquals(divide, recursive.getQT().get(0));
@@ -47,7 +55,9 @@ public class Recursive {
 
     @Test
     public void testCombination() {
-        recursive.beginToAnalysis("(a+b-c)*d/e;");
+        Assertions.assertDoesNotThrow(() -> {
+            recursive.beginToAnalysis("(a+b-c)*d/e;");
+        });
         recursive.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
         Quadruple subtraction = new Quadruple('-', "t1", "c", "t2");
@@ -57,5 +67,26 @@ public class Recursive {
         Assertions.assertEquals(subtraction, recursive.getQT().get(1));
         Assertions.assertEquals(multiply, recursive.getQT().get(2));
         Assertions.assertEquals(divide, recursive.getQT().get(3));
+    }
+
+    @Test
+    public void testERR0() {
+        Assertions.assertThrows(Exception.class, () -> {
+            recursive.beginToAnalysis("a+b");
+        });
+    }
+
+    @Test
+    public void testERR1() {
+        Assertions.assertThrows(Exception.class, () -> {
+            recursive.beginToAnalysis("&a+b;");
+        });
+    }
+
+    @Test
+    public void testERR2() {
+        Assertions.assertThrows(Exception.class, () -> {
+            recursive.beginToAnalysis("(a+b;");
+        });
     }
 }

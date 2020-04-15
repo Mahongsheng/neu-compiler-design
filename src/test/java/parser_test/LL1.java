@@ -58,4 +58,10 @@ public class LL1 {
         Assertions.assertEquals(multiply, ll1.getQT().get(2));
         Assertions.assertEquals(divide, ll1.getQT().get(3));
     }
+
+    @Test
+    public void testWrongGrammar() {
+        Assertions.assertFalse(ll1.LL1Control("aaa"));
+        ll1.showQT();
+    }
 }

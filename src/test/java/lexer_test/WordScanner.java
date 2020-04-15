@@ -38,7 +38,7 @@ public class WordScanner {
     }
 
     @Test
-    public void testInt() {
+    public void testIntWithE() {
         assertDoesNotThrow(() -> {
             BufferedWriter writeToFile = new BufferedWriter(new FileWriter(readFile));
             writeToFile.write("2e-2");
@@ -47,6 +47,20 @@ public class WordScanner {
             wordScanner.writeToFile();
             BufferedReader readFromFile = new BufferedReader(new FileReader("src/main/java/lexer/file/output.txt"));
             assertEquals("<3, 0.02>", readFromFile.readLine());
+            readFromFile.close();
+        });
+    }
+
+    @Test
+    public void testInt() {
+        assertDoesNotThrow(() -> {
+            BufferedWriter writeToFile = new BufferedWriter(new FileWriter(readFile));
+            writeToFile.write("2");
+            writeToFile.close();
+            wordScanner.getTextFromFileAndAnalysis();
+            wordScanner.writeToFile();
+            BufferedReader readFromFile = new BufferedReader(new FileReader("src/main/java/lexer/file/output.txt"));
+            assertEquals("<3, 2.0>", readFromFile.readLine());
             readFromFile.close();
         });
     }

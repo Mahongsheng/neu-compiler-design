@@ -39,4 +39,9 @@ public class LR0 {
         Assertions.assertEquals(add, LR0.getQT().get(0));
         Assertions.assertEquals(multiply, LR0.getQT().get(1));
     }
+
+    @Test
+    public void testWrongGrammar() {
+        Assertions.assertFalse(LR0.LR0Control("aaa"));
+    }
 }

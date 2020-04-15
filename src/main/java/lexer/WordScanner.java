@@ -69,12 +69,12 @@ public class WordScanner {
      * 使用有限自动机进行词法分析
      */
     private void analysisWord() {
-        int state = 1;
+        int state = 1;//当前状态
         if (isProcessingNote) state = 12;
         char currentChar;//当前字符
         Token token;
         StringBuilder currentWord = new StringBuilder();//当前单词
-        StringBuilder currentENum = new StringBuilder();//当前数字型的科学计数部分
+        StringBuilder currentENum = new StringBuilder();//当前数字型单词的科学计数部分
         while (!analysingString.isEmpty()) {
             currentChar = analysingString.poll();
             switch (state) {
@@ -83,7 +83,7 @@ public class WordScanner {
                     state = getNextState(state, currentChar);
                     currentWord.append(currentChar);
                     break;
-                case 2:
+                case 2://识别为数字
                     if (Character.isDigit(currentChar)) {
                         currentWord.append(currentChar);
                     } else if (currentChar != 'e' && currentChar != 'E' && currentChar != '.')
@@ -100,7 +100,7 @@ public class WordScanner {
                     } else analysingString.addFirst(currentChar);
                     state = getNextState(state, currentChar);
                     break;
-                case 5:
+                case 5://识别为数字且数字为科学计数法形式
                     currentENum = new StringBuilder();
                     currentENum.append(currentChar);
                     state = getNextState(state, currentChar);
@@ -115,23 +115,23 @@ public class WordScanner {
                     } else analysingString.addFirst(currentChar);
                     state = getNextState(state, currentChar);
                     break;
-                case 8:
+                case 8://识别为关键字或标识符
                     if (Character.isLetter(currentChar) || Character.isDigit(currentChar)) {
                         currentWord.append(currentChar);
                     } else analysingString.addFirst(currentChar);
                     state = getNextState(state, currentChar);
                     break;
-                case 9:
+                case 9://识别为界符
                     if (JudgeType.isDelimiter(currentChar)) {
                         currentWord.append(currentChar);
                     } else analysingString.addFirst(currentChar);
                     state = getNextState(state, currentChar);
                     break;
-                case 10:
+                case 10://识别为双界符
                     analysingString.addFirst(currentChar);
                     state = getNextState(state, currentChar);
                     break;
-                case 11:
+                case 11://识别为注释
                     currentWord.append(currentChar);
                     state = getNextState(state, currentChar);
                     break;
@@ -142,10 +142,10 @@ public class WordScanner {
                 case 13:
                     state = getNextState(state, currentChar);
                     break;
-                case 14:
+                case 14://将当前字符串转化为数字并生成token
                     state = 1;
                     analysingString.addFirst(currentChar);
-                    // 开始转换
+                    //开始转换
                     int ENum = 0;
                     if (!currentENum.toString().equals("")) {
                         ENum = Integer.parseInt(currentENum.toString());
@@ -156,7 +156,7 @@ public class WordScanner {
                     tokens.add(token);
                     constants.add(constant);
                     break;
-                case 15:
+                case 15://处理当前字符串为关键字或标识符
                     state = 1;
                     analysingString.addFirst(currentChar);
                     if (JudgeType.isKeywords(currentWord.toString())) {
@@ -169,7 +169,7 @@ public class WordScanner {
                         identifiers.add(currentWord.toString());
                     }
                     break;
-                case 16:
+                case 16://处理当前字符串为双界符
                     state = 1;
                     analysingString.addFirst(currentChar);
                     if (JudgeType.getDoubleDelimiterType(currentWord.toString()) == -1) {
@@ -181,14 +181,14 @@ public class WordScanner {
                     tokens.add(token);
                     symbols.add(currentWord.toString());
                     break;
-                case 17:
+                case 17://处理当前字符为单界符
                     state = 1;
                     analysingString.addFirst(currentChar);
                     token = new Token(JudgeType.getDelimiterType(currentWord.toString().charAt(0)), currentWord.toString());
                     tokens.add(token);
                     symbols.add(currentWord.toString());
                     break;
-                case 18:
+                case 18://丢弃所有注释，不生成任何token
                     state = 1;
                     if (currentWord.toString().equals("//")) {
                         analysingString.clear();
@@ -197,7 +197,7 @@ public class WordScanner {
                         isProcessingNote = false;
                     }
                     break;
-                case 19:
+                case 19://无法识别的字符串
                     state = 1;
                     analysingString.addFirst(currentChar);
                     token = new Token(-1, "无法识别字符串");

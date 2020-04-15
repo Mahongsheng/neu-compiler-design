@@ -35,7 +35,7 @@ public class Recursive {
      *
      * @param arithmeticCode
      */
-    public void beginToAnalysis(String arithmeticCode) {
+    public void beginToAnalysis(String arithmeticCode) throws Exception {
         init();
         for (char eachChar : arithmeticCode.toCharArray()) {
             allCharOfString.add(eachChar);
@@ -43,12 +43,17 @@ public class Recursive {
         if (!allCharOfString.isEmpty())
             w = allCharOfString.poll();
         E();
+        if (w != ';') {
+            System.out.println("ERR0: 待识别字符串非正确算术表达式");
+            throw new Exception("ERR0: 待识别字符串非正确算术表达式");
+        }
+        System.out.println(w);
     }
 
     /**
      * 子程序E
      */
-    private void E() {
+    private void E() throws Exception {
         T();
         while (true) {
             if (w == '+') {
@@ -69,7 +74,7 @@ public class Recursive {
     /**
      * 子程序T
      */
-    private void T() {
+    private void T() throws Exception {
         F();
         while (true) {
             if (w == '*') {
@@ -89,7 +94,7 @@ public class Recursive {
     /**
      * 子程序F
      */
-    private void F() {
+    private void F() throws Exception {
         if ((w >= '0' && w <= '9') || (w >= 'a' && w <= 'z')) {
             SEM.push(String.valueOf(w));
             if (!allCharOfString.isEmpty()) w = allCharOfString.poll();
@@ -99,10 +104,12 @@ public class Recursive {
             if (w == ')') {
                 if (!allCharOfString.isEmpty()) w = allCharOfString.poll();
             } else {
-                System.out.println("err2");
+                System.out.println("ERR2: 待识别字符串非正确算术表达式");
+                throw new Exception("ERR2: 待识别字符串非正确算术表达式");
             }
         } else {
-            System.out.println("err1");
+            System.out.println("ERR1: 待识别字符串非正确算术表达式");
+            throw new Exception("ERR1: 待识别字符串非正确算术表达式");
         }
     }
 
