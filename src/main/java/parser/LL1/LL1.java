@@ -30,7 +30,7 @@ public class LL1 {
     /**
      * LL(1)控制程序
      *
-     * @param LL1String
+     * @param LL1String 待分析语句
      * @return true：无问题；false：有问题
      */
     public boolean LL1Control(String LL1String) {
@@ -84,6 +84,8 @@ public class LL1 {
                         state = 1;
                     } else if (x == 'i' && Character.isLetter(w)) {
                         state = 1;
+                    } else {
+                        return false;
                     }
                     break;
                 case 5:
