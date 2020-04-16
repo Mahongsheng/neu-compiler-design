@@ -54,7 +54,7 @@ public class LR0 {
         init();
         int k = 0;
         char w = 0;
-        int state = 0;
+        int state = 1;
         int cursorInString = 0;
         String resultFromTable = "";
         int tCount = 1;
@@ -62,12 +62,12 @@ public class LR0 {
         SYN.push(";0");
         while (true) {
             switch (state) {
-                case 0:
+                case 1:
                     lastW = w;
                     w = LR0String.charAt(cursorInString++);
-                    state = 1;
+                    state = 2;
                     break;
-                case 1:
+                case 2:
                     k = Integer.parseInt(SYN.peek().substring(1));
                     resultFromTable = findFromAnalysisTable(k, w);
                     if (resultFromTable.equals("")) {
@@ -75,14 +75,14 @@ public class LR0 {
                     } else if (resultFromTable.equals("OK")) {
                         return true;
                     } else if (resultFromTable.charAt(0) == 'r' && resultFromTable.charAt(1) == '(') {
-                        state = 2;
+                        state = 3;
                     } else {
                         //移进
                         SYN.push(resultFromTable);
-                        state = 0;
+                        state = 1;
                     }
                     break;
-                case 2:
+                case 3:
                     int grammarIndex = Integer.parseInt(resultFromTable.split("\\(")[1].split("\\)")[0]);
                     char Vn = grammar[grammarIndex].charAt(0);
                     String rightOfGrammar = grammar[grammarIndex].split("->")[1];
@@ -90,7 +90,7 @@ public class LR0 {
                         if (rightOfGrammar.charAt(i) != '{') {
                             SYN.pop();
                         } else {
-                            //发现动作符号
+                            //发现动作符号并执行
                             if (rightOfGrammar.charAt(i + 1) == 'G') {
                                 char symbol = rightOfGrammar.charAt(i + 2);
                                 String rightData = SEM.pop();
@@ -108,7 +108,7 @@ public class LR0 {
                     }
                     k = Integer.parseInt(SYN.peek().substring(1));
                     SYN.push(findFromAnalysisTable(k, Vn));
-                    state = 1;
+                    state = 2;
                     break;
             }
         }

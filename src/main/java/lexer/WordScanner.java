@@ -84,9 +84,9 @@ public class WordScanner {
                     currentWord.append(currentChar);
                     break;
                 case 2://识别为数字
-                    if (Character.isDigit(currentChar)) {
+                    if (Character.isDigit(currentChar) || currentChar == '.') {
                         currentWord.append(currentChar);
-                    } else if (currentChar != 'e' && currentChar != 'E' && currentChar != '.')
+                    } else if (currentChar != 'e' && currentChar != 'E')
                         analysingString.addFirst(currentChar);
                     state = getNextState(state, currentChar);
                     break;
@@ -261,14 +261,17 @@ public class WordScanner {
      * 展示所有分析结果
      */
     private void showAll() {
+        int t = 0;
         for (Token token : tokens) {
             System.out.print(token.toString() + " ");
+            t++;
+            if (t % 8 == 0) System.out.println();
         }
         System.out.println();
         System.out.print("关键字表：");
         keywords.forEach(e -> System.out.print(e + " "));
         System.out.println();
-        System.out.print("界符表：");
+        System.out.print("标识符表：");
         identifiers.forEach(e -> System.out.print(e + " "));
         System.out.println();
         System.out.print("符号表：");

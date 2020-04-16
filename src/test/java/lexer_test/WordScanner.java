@@ -66,6 +66,20 @@ public class WordScanner {
     }
 
     @Test
+    public void testFloat() {
+        assertDoesNotThrow(() -> {
+            BufferedWriter writeToFile = new BufferedWriter(new FileWriter(readFile));
+            writeToFile.write("2.1");
+            writeToFile.close();
+            wordScanner.getTextFromFileAndAnalysis();
+            wordScanner.writeToFile();
+            BufferedReader readFromFile = new BufferedReader(new FileReader("src/main/java/lexer/file/output.txt"));
+            assertEquals("<3, 2.1>", readFromFile.readLine());
+            readFromFile.close();
+        });
+    }
+
+    @Test
     public void testKeyword() {
         assertDoesNotThrow(() -> {
             BufferedWriter writeToFile = new BufferedWriter(new FileWriter(readFile));
@@ -153,9 +167,19 @@ public class WordScanner {
     public void testAll() {
         assertDoesNotThrow(() -> {
             BufferedWriter writeToFile = new BufferedWriter(new FileWriter(readFile));
-            writeToFile.write("public static void main(String[] args) {\n" +
-                    "   int a = 2;\n" +
-                    "   System.out.println();\n" +
+            System.out.println("/**\n" +
+                    "* 这是一个注释\n" +
+                    "*/\n" +
+                    "public static void main(String[] args) {\n" +
+                    "    int a = 2;\n" +
+                    "    System.out.println();//这也是一个注释\n" +
+                    "}");
+            writeToFile.write("/**\n" +
+                    "* 这是一个注释\n" +
+                    "*/\n" +
+                    "public static void main(String[] args) {\n" +
+                    "    int a = 2;\n" +
+                    "    System.out.println();//这也是一个注释\n" +
                     "}");
             writeToFile.close();
             wordScanner.getTextFromFileAndAnalysis();

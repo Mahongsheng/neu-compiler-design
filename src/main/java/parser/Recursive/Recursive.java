@@ -15,7 +15,7 @@ import java.util.Stack;
 public class Recursive {
 
     private LinkedList<Character> allCharOfString;//待分析字符串
-    private Stack<String> SEM = new Stack<>();//语义栈
+    private Stack<String> SEM;//语义栈
     private ArrayList<Quadruple> QT;//四元式列表
     private char w;//当前字符
     private int tCount;//四元式中t后系数

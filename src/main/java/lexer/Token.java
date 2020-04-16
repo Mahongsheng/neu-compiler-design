@@ -9,7 +9,6 @@ import lombok.Getter;
  *
  * @author 马洪升
  */
-@Getter
 @AllArgsConstructor
 public class Token {
 

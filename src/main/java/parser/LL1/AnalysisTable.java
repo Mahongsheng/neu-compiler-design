@@ -54,23 +54,23 @@ public class AnalysisTable {
      */
     private void handleFirst() {
         for (int i = 0; i < grammar.length; i++) {
-            HashSet<Character> firstOfThisItem = new HashSet<>();
-            Queue<Character> nextVn = new LinkedList<>();
-            char currentChar = grammar[i].split("->")[1].charAt(0);
-            if (currentChar == 'e') {
+            HashSet<Character> firstOfThisItem = new HashSet<>();//位置为i的产生式的first集
+            Queue<Character> nextVn = new LinkedList<>();//找到的下一个非终结符
+            char currentChar = grammar[i].split("->")[1].charAt(0);//获得当前产生式的最左侧字符
+            if (currentChar == 'e') {//能够推导出e，需要求其follow集
                 ifNeedFollow[i] = 1;
                 first.add(firstOfThisItem);
                 continue;
             }
-            if (Vt.contains(currentChar)) firstOfThisItem.add(currentChar);
-            else nextVn.add(currentChar);
-            while (!nextVn.isEmpty()) {
+            if (Vt.contains(currentChar)) firstOfThisItem.add(currentChar);//如果当前字符为终结符，则加入到first集中
+            else nextVn.add(currentChar);//非终结符，加入到即将去寻找的非终结符集中
+            while (!nextVn.isEmpty()) {//遍历非终结符集
                 char currentVn = nextVn.poll();
-                for (String currGrammar : grammar) {
+                for (String currGrammar : grammar) {//找到起始字符该非终结符的产生式
                     if (currGrammar.charAt(0) == currentVn) {
-                        currentChar = currGrammar.split("->")[1].charAt(0);
+                        currentChar = currGrammar.split("->")[1].charAt(0);//找到产生式右部的最左侧的字符
                         if (Vt.contains(currentChar)) {
-                            if (currentChar == 'e') ifNeedFollow[i] = 1;
+                            if (currentChar == 'e') ifNeedFollow[i] = 1;//能够推导出e，需要求其follow集
                             else firstOfThisItem.add(currentChar);
                         } else nextVn.add(currentChar);
                     }
@@ -85,9 +85,9 @@ public class AnalysisTable {
      */
     private void handleFollow() {
         for (int i = 0; i < ifNeedFollow.length; i++) {
-            HashSet<Character> followOfThisItem = new HashSet<>();
+            HashSet<Character> followOfThisItem = new HashSet<>();//当前产生式的follow集
             follow.add(followOfThisItem);
-            if (ifNeedFollow[i] == 1) {
+            if (ifNeedFollow[i] == 1) {//该产生式是否需要计算follow集
                 char currentVn = grammar[i].charAt(0);
                 follow.get(i).addAll(findFollowByVn(currentVn));
             }
@@ -101,7 +101,7 @@ public class AnalysisTable {
      * @return
      */
     private HashSet<Character> findFollowByVn(char currentVn) {
-        HashSet<Character> currFollow = new HashSet<>();
+        HashSet<Character> currFollow = new HashSet<>();//当前非终结符的follow集
         if (firstVn == currentVn) currFollow.add(';');
         for (String currGrammar : grammar) {
             String rightOfGrammar = currGrammar.split("->")[1];
@@ -167,19 +167,21 @@ public class AnalysisTable {
      * @return
      */
     public boolean judgeIfLL1() {
-        int wholeNumInSelect;
-        char currentVn = 0;
-        HashSet<Character> wholeSelect;
-        HashSet<Character> judgedVn = new HashSet<>();
+        int wholeNumInSelect;//相同Vn的select集中元素个数
+        char currentVn = 0;//当前Vn
+        HashSet<Character> wholeSelect;//相同Vn的select集
+        HashSet<Character> judgedVn = new HashSet<>();//已经判断过的Vn集
         for (int i = 0; i < grammar.length; i++) {
-            if (!judgedVn.contains(currentVn)) {
+            if (!judgedVn.contains(currentVn)) {//当前Vn没有被判断过，初始化各个参数
                 currentVn = grammar[i].charAt(0);
                 judgedVn.add(currentVn);
                 wholeNumInSelect = 0;
                 wholeSelect = new HashSet<>();
             } else continue;
-            for (int j = i + 1; j < grammar.length; j++) {
+            for (int j = i + 1; j < grammar.length; j++) {//遍历其他产生式，找到最左侧为当前Vn的产生式
                 if (grammar[j].charAt(0) == currentVn) {
+                    //巧妙利用set的特性，其中不含有任何重复元素，如果总的select集的size和其他各个select集的size之和不相等
+                    //则代表select集有相交，其并不是LL(1)文法
                     wholeNumInSelect += select.get(j).size();
                     wholeSelect.addAll(select.get(j));
                 }
