@@ -1,6 +1,5 @@
 package parser.LR0;
 
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -10,13 +9,16 @@ import java.util.Stack;
  *
  * @author 软英1702 马洪升
  */
-@Getter
 public class LR0 {
 
     private String[] grammar = {"Z->E", "E->E+T{G+}", "E->T", "T->T*F{G*}", "T->F", "F->i{Pi}", "F->(E)"};
     private Stack<String> SYN;//语法栈
     private Stack<String> SEM;//语义栈
     private ArrayList<Quadruple> QT;//四元式列表
+
+    public ArrayList<Quadruple> getQT() {
+        return QT;
+    }
 
     //SLR(1)分析表
     private String[][] analysisTable = {
@@ -100,8 +102,6 @@ public class LR0 {
                                 SEM.push(quadruple.getResult());
                             } else if (rightOfGrammar.charAt(i + 1) == 'P') {
                                 SEM.push(String.valueOf(lastW));
-                            } else {
-                                return false;
                             }
                             break;
                         }
