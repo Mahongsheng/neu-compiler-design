@@ -49,7 +49,6 @@ public class Recursive {
             System.out.println("ERR0: 待识别字符串非正确算术表达式");
             throw new Exception("ERR0: 待识别字符串非正确算术表达式");
         }
-        System.out.println(w);
     }
 
     /**

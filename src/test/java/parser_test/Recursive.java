@@ -15,6 +15,7 @@ public class Recursive {
 
     @Test
     public void testAdd() {
+        System.out.println("输入：a+b;");
         Assertions.assertDoesNotThrow(() -> {
             recursive.beginToAnalysis("a+b;");
         });
@@ -25,6 +26,7 @@ public class Recursive {
 
     @Test
     public void testSubtraction() {
+        System.out.println("输入：a-b;");
         Assertions.assertDoesNotThrow(() -> {
             recursive.beginToAnalysis("a-b;");
         });
@@ -35,6 +37,7 @@ public class Recursive {
 
     @Test
     public void testMultiply() {
+        System.out.println("输入：a*b;");
         Assertions.assertDoesNotThrow(() -> {
             recursive.beginToAnalysis("a*b;");
         });
@@ -45,6 +48,7 @@ public class Recursive {
 
     @Test
     public void testDivide() {
+        System.out.println("输入：a/b;");
         Assertions.assertDoesNotThrow(() -> {
             recursive.beginToAnalysis("a/b;");
         });
@@ -55,6 +59,7 @@ public class Recursive {
 
     @Test
     public void testCombination() {
+        System.out.println("输入：(a+b-c)*d/e;");
         Assertions.assertDoesNotThrow(() -> {
             recursive.beginToAnalysis("(a+b-c)*d/e;");
         });
@@ -71,6 +76,7 @@ public class Recursive {
 
     @Test
     public void testERR0() {
+        System.out.println("输入：a+b");
         Assertions.assertThrows(Exception.class, () -> {
             recursive.beginToAnalysis("a+b");
         });
@@ -78,6 +84,7 @@ public class Recursive {
 
     @Test
     public void testERR1() {
+        System.out.println("输入：&a+b;");
         Assertions.assertThrows(Exception.class, () -> {
             recursive.beginToAnalysis("&a+b;");
         });
@@ -85,6 +92,7 @@ public class Recursive {
 
     @Test
     public void testERR2() {
+        System.out.println("输入：(a+b;");
         Assertions.assertThrows(Exception.class, () -> {
             recursive.beginToAnalysis("(a+b;");
         });

@@ -1,7 +1,5 @@
 package parser.LL1;
 
-import lombok.Getter;
-
 import java.util.*;
 
 /**
@@ -9,7 +7,6 @@ import java.util.*;
  *
  * @author 软英1702 马洪升
  */
-@Getter
 public class LL1 {
     private String[] grammar = {"E->TY", "Y->+T{G+}Y", "Y->-T{G-}Y", "Y->e", "T->FX", "X->*F{G*}X", "X->/F{G/}X", "X->e", "F->i{Pi}", "F->(E)"};
     private AnalysisTable analysisTableObj = new AnalysisTable();//分析表对象，用于获取终结符集，非终结符集，分析表
@@ -18,6 +15,9 @@ public class LL1 {
     private Stack<String> SEM;//语义栈
     private ArrayList<Quadruple> QT;//四元式区
 
+    public ArrayList<Quadruple> getQT(){
+        return QT;
+    }
     /**
      * 初始化列表和栈，便于多次分析
      */
@@ -84,8 +84,6 @@ public class LL1 {
                         state = 1;
                     } else if (x == 'i' && Character.isLetter(w)) {
                         state = 1;
-                    } else {
-                        return false;
                     }
                     break;
                 case 5:

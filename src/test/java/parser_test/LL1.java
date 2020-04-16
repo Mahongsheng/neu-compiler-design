@@ -13,8 +13,20 @@ public class LL1 {
 
     parser.LL1.LL1 ll1 = new parser.LL1.LL1();
 
+    private parser.LL1.AnalysisTable analysisTable = new parser.LL1.AnalysisTable();
+
+    @Test
+    public void testAnalysisTable() {
+        System.out.println("First集： " + analysisTable.getFirst());
+        System.out.println("Follow集： " + analysisTable.getFollow());
+        System.out.println("Select集： " + analysisTable.getSelect());
+        System.out.println(analysisTable.judgeIfLL1() ? "该语句为LL(1)文法" : "该语句不是LL(1)文法");
+        analysisTable.showAnalysisTable();
+    }
+
     @Test
     public void testAdd() {
+        System.out.println("输入：a+b;");
         ll1.LL1Control("a+b;");
         ll1.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
@@ -23,6 +35,7 @@ public class LL1 {
 
     @Test
     public void testSubtraction() {
+        System.out.println("输入：a-b;");
         ll1.LL1Control("a-b;");
         ll1.showQT();
         Quadruple subtraction = new Quadruple('-', "a", "b", "t1");
@@ -31,6 +44,7 @@ public class LL1 {
 
     @Test
     public void testMultiply() {
+        System.out.println("输入：a*b;");
         ll1.LL1Control("a*b;");
         ll1.showQT();
         Quadruple multiply = new Quadruple('*', "a", "b", "t1");
@@ -39,6 +53,7 @@ public class LL1 {
 
     @Test
     public void testDivide() {
+        System.out.println("输入：a/b;");
         ll1.LL1Control("a/b;");
         ll1.showQT();
         Quadruple divide = new Quadruple('/', "a", "b", "t1");
@@ -47,6 +62,7 @@ public class LL1 {
 
     @Test
     public void testCombination() {
+        System.out.println("输入：(a+b-c)*d/e;");
         ll1.LL1Control("(a+b-c)*d/e;");
         ll1.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
@@ -61,6 +77,7 @@ public class LL1 {
 
     @Test
     public void testWrongGrammar() {
+        System.out.println("输入：aaa;");
         Assertions.assertFalse(ll1.LL1Control("aaa"));
         ll1.showQT();
     }
