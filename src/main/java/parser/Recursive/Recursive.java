@@ -11,7 +11,6 @@ import java.util.Stack;
  *
  * @author 软英1702 马洪升
  */
-@Getter
 public class Recursive {
 
     private LinkedList<Character> allCharOfString;//待分析字符串
@@ -20,6 +19,9 @@ public class Recursive {
     private char w;//当前字符
     private int tCount;//四元式中t后系数
 
+    public ArrayList<Quadruple> getQT(){
+        return QT;
+    }
     /**
      * 初始化链表和栈，便于多次分析
      */
