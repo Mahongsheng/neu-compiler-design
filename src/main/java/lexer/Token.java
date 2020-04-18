@@ -9,11 +9,15 @@ import lombok.Getter;
  *
  * @author 马洪升
  */
-@AllArgsConstructor
 public class Token {
 
     private int type;
     private String value;
+
+    public Token(int type, String value) {
+        this.type = type;
+        this.value = value;
+    }
 
     public String toString() {
         return "<" + this.type + ", " + this.value + ">";

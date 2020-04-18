@@ -17,11 +17,19 @@ public class LL1 {
 
     @Test
     public void testAnalysisTable() {
+        analysisTable.initAll();
         System.out.println("First集： " + analysisTable.getFirst());
         System.out.println("Follow集： " + analysisTable.getFollow());
         System.out.println("Select集： " + analysisTable.getSelect());
         System.out.println(analysisTable.judgeIfLL1() ? "该语句为LL(1)文法" : "该语句不是LL(1)文法");
         analysisTable.showAnalysisTable();
+    }
+
+    @Test
+    public void testAnalysisTableWithNotLL1() {
+        String[] wrongGrammar = {"T->TF"};
+        analysisTable.setGrammar(wrongGrammar);
+        analysisTable.initAll();
     }
 
     @Test

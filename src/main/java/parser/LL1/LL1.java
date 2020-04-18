@@ -15,9 +15,10 @@ public class LL1 {
     private Stack<String> SEM;//语义栈
     private ArrayList<Quadruple> QT;//四元式区
 
-    public ArrayList<Quadruple> getQT(){
+    public ArrayList<Quadruple> getQT() {
         return QT;
     }
+
     /**
      * 初始化列表和栈，便于多次分析
      */
@@ -25,6 +26,7 @@ public class LL1 {
         SYN = new Stack<>();
         SEM = new Stack<>();
         QT = new ArrayList<>();
+        analysisTableObj.initAll();
     }
 
     /**

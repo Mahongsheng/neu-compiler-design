@@ -9,7 +9,6 @@ import java.util.*;
  *
  * @author 软英1702 马洪升
  */
-@Getter
 public class AnalysisTable {
     private String[] grammar = {"E->TY", "Y->+TY", "Y->-TY", "Y->e", "T->FX", "X->*FX", "X->/FX", "X->e", "F->i", "F->(E)"};
     private HashSet<Character> Vn = new HashSet<>();//非终结符集
@@ -21,9 +20,46 @@ public class AnalysisTable {
     public int[] ifNeedFollow = new int[grammar.length];//该位置的表达式星推导是否指向e（空）
     private char firstVn = grammar[0].charAt(0);//起始Vn
 
-    public AnalysisTable() {
+    public void setGrammar(String[] grammar) {
+        this.grammar = grammar;
+    }
+
+    public String[] getGrammar() {
+        return grammar;
+    }
+
+    public HashSet<Character> getVn() {
+        return Vn;
+    }
+
+    public HashSet<Character> getVt() {
+        return Vt;
+    }
+
+    public ArrayList<HashSet<Character>> getFirst() {
+        return first;
+    }
+
+    public ArrayList<HashSet<Character>> getFollow() {
+        return follow;
+    }
+
+    public ArrayList<HashSet<Character>> getSelect() {
+        return select;
+    }
+
+    public HashMap<Character, ArrayList<AnalysisTableItem>> getAnalysisTable() {
+        return analysisTable;
+    }
+
+    public void initAll() {
         this.handleVnVt();
-        this.handleFirst();
+        try {
+            this.handleFirst();
+        } catch (Exception e) {
+            System.out.println("该语法出现左递归，其并非LL(1)文法！");
+            return;
+        }
         this.handleFollow();
         this.handleSelect();
         this.handleAnalysisTable();
@@ -52,7 +88,7 @@ public class AnalysisTable {
     /**
      * 生成first集
      */
-    private void handleFirst() {
+    private void handleFirst() throws Exception {
         for (int i = 0; i < grammar.length; i++) {
             HashSet<Character> firstOfThisItem = new HashSet<>();//位置为i的产生式的first集
             Queue<Character> nextVn = new LinkedList<>();//找到的下一个非终结符
@@ -72,7 +108,12 @@ public class AnalysisTable {
                         if (Vt.contains(currentChar)) {
                             if (currentChar == 'e') ifNeedFollow[i] = 1;//能够推导出e，需要求其follow集
                             else firstOfThisItem.add(currentChar);
-                        } else nextVn.add(currentChar);
+                        } else if (currentChar == currentVn) {
+                            //此时出现左递归
+                            throw new Exception("该语法出现左递归，其并非LL(1)文法！");
+                        } else {
+                            nextVn.add(currentChar);
+                        }
                     }
                 }
             }
