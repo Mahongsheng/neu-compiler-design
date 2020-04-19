@@ -1,8 +1,4 @@
-package parser.LR0;
-
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+package parser.LR;
 
 import java.util.Objects;
 

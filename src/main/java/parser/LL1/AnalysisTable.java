@@ -1,7 +1,5 @@
 package parser.LL1;
 
-import lombok.Getter;
-
 import java.util.*;
 
 /**

@@ -1,4 +1,4 @@
-package parser.LR0;
+package parser.LR;
 
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Stack;
  *
  * @author 软英1702 马洪升
  */
-public class LR0 {
+public class LR {
 
     private String[] grammar = {"Z->E", "E->E+T{G+}", "E->T", "T->T*F{G*}", "T->F", "F->i{Pi}", "F->(E)"};
     private Stack<String> SYN;//语法栈
@@ -47,7 +47,7 @@ public class LR0 {
     }
 
     /**
-     * LR(0)控制程序
+     * LR控制程序
      *
      * @param LR0String
      * @return true：无问题；false：有问题
@@ -115,7 +115,7 @@ public class LR0 {
     }
 
     /**
-     * 根查询LR分析表
+     * 查询SLR(1)分析表
      *
      * @param k 当前状态
      * @param w 当前字符

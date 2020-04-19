@@ -1,9 +1,5 @@
 package lexer;
 
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 封装的Token类，包含类别编号和值
  *

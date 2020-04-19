@@ -1,7 +1,5 @@
 package parser.LL1;
 
-import lombok.AllArgsConstructor;
-
 /**
  * LL(1)分析表中的元素：非终结符、终结符、下一语法的位置
  *

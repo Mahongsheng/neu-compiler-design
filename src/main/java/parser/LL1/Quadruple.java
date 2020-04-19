@@ -1,9 +1,5 @@
 package parser.LL1;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
 import java.util.Objects;
 
 /**
@@ -11,7 +7,6 @@ import java.util.Objects;
  *
  * @author 软英1702 马洪升
  */
-@EqualsAndHashCode
 public class Quadruple {
     private char operation;
     private String leftData;

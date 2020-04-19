@@ -1,7 +1,5 @@
 package parser.Recursive;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
