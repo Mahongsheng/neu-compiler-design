@@ -16,7 +16,7 @@ public class LR {
     @Test
     public void testAdd() {
         System.out.println("输入：a+b;");
-        LR.LR0Control("a+b;");
+        LR.LRControl("a+b;");
         LR.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
         Assertions.assertEquals(add, LR.getQT().get(0));
@@ -26,7 +26,7 @@ public class LR {
     @Test
     public void testMultiply() {
         System.out.println("输入：a*b;");
-        LR.LR0Control("a*b;");
+        LR.LRControl("a*b;");
         LR.showQT();
         Quadruple multiply = new Quadruple('*', "a", "b", "t1");
         Assertions.assertEquals(multiply, LR.getQT().get(0));
@@ -35,7 +35,7 @@ public class LR {
     @Test
     public void testCombination() {
         System.out.println("输入：(a+b)*c;");
-        LR.LR0Control("(a+b)*c;");
+        LR.LRControl("(a+b)*c;");
         LR.showQT();
         Quadruple add = new Quadruple('+', "a", "b", "t1");
         Quadruple multiply = new Quadruple('*', "t1", "c", "t2");
@@ -46,6 +46,6 @@ public class LR {
     @Test
     public void testWrongGrammar() {
         System.out.println("输入：aaa;");
-        Assertions.assertFalse(LR.LR0Control("aaa"));
+        Assertions.assertFalse(LR.LRControl("aaa"));
     }
 }

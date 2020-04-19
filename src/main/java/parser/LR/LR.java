@@ -49,10 +49,10 @@ public class LR {
     /**
      * LR控制程序
      *
-     * @param LR0String
+     * @param LRString
      * @return true：无问题；false：有问题
      */
-    public boolean LR0Control(String LR0String) {
+    public boolean LRControl(String LRString) {
         init();
         int k = 0;
         char w = 0;
@@ -66,7 +66,7 @@ public class LR {
             switch (state) {
                 case 1:
                     lastW = w;
-                    w = LR0String.charAt(cursorInString++);
+                    w = LRString.charAt(cursorInString++);
                     state = 2;
                     break;
                 case 2:
